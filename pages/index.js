@@ -1,5 +1,5 @@
 import { createClient } from 'contentful';
-import RecipeCard from '../components/RecipeCard';
+import PhotoCard from '../components/PhotoCard';
 
 export async function getStaticProps() {
   const client = createClient({
@@ -7,19 +7,18 @@ export async function getStaticProps() {
     accessToken: process.env.ACCESS_KEY,
   });
 
-  const response = await client.getEntries({ content_type: 'recipe' });
+  const response = await client.getEntries({ content_type: 'photoArt' });
 
   return {
-    props: { recipes: response.items },
+    props: { photos: response.items },
   };
 }
 
-export default function Recipes({ recipes }) {
-
+export default function PhotoList({ photos }) {
   return (
-    <div className="recipe-list">
-      {recipes.map(recipe => (
-        <RecipeCard key={recipe.sys.id} recipe={recipe} />
+    <div className="photo-list">
+      {photos.map(photo => (
+        <PhotoCard key={photo.sys.id} photoData={photo} />
       ))}
     </div>
   );

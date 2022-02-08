@@ -9,14 +9,12 @@ const client = createClient({
 
 export const getStaticPaths = async () => {
   const response = await client.getEntries({
-    content_type: 'recipe',
+    content_type: 'photoArt',
   });
 
-  const paths = response.items.map(path => {
-    return {
-      params: { slug: path.fields.slug },
-    };
-  });
+  const paths = response.items.map(path => ({
+    params: { slug: path.fields.slug },
+  }));
 
   return {
     paths,
@@ -27,32 +25,38 @@ export const getStaticPaths = async () => {
 export async function getStaticProps(context) {
   // response.items
   const { items } = await client.getEntries({
-    content_type: 'recipe',
+    content_type: 'photoArt',
     'fields.slug': context.params.slug,
   });
 
   return {
-    props: { recipe: items[0] },
+    props: { photoItem: items[0] },
   };
 }
 
-export default function RecipeDetails({ recipe }) {
-  const { featuredImage, title, ingredients, method } = recipe.fields;
+export default function RecipeDetails({ photoItem }) {
+  const { photo, title, tags, authorNotes } = photoItem.fields;
   return (
-    <div>
+    <div className="banner-content">
       <div className="banner">
         <Image
-          src={`https:${featuredImage.fields.file.url}`}
-          width={featuredImage.fields.file.details.image.width}
-          height={featuredImage.fields.file.details.image.height}
+          src={`https:${photo.fields.file.url}`}
+          width={photo.fields.file.details.image.width}
+          height={photo.fields.file.details.image.height}
         />
         <h2>{title}</h2>
         <div className="info">
-          <p>{ingredients.map(item => `#${item} `)}</p>
+          <div className="tags">
+            {tags.map(tag => (
+              <span>#{tag}</span>
+            ))}
+          </div>
         </div>
-        <div className="method">
+      </div>
+      <div className="banner-info">
+        <div className="author-notes">
           <h3>Author notes:</h3>
-          <div>{documentToReactComponents(method)}</div>
+          <div>{documentToReactComponents(authorNotes)}</div>
         </div>
       </div>
     </div>
