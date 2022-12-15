@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from "next/link";
+import Image from "next/image";
 
 export default function PhotoCard({ photoData }) {
   const { title, slug, photo } = photoData.fields;

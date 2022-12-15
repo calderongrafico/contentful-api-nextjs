@@ -1,18 +1,13 @@
-import { createClient } from 'contentful';
-import Image from 'next/image';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-
-const client = createClient({
-  space: process.env.SPACE_ID,
-  accessToken: process.env.ACCESS_KEY,
-});
+import { client } from "../../utils/client";
+import Image from "next/image";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export const getStaticPaths = async () => {
   const response = await client.getEntries({
-    content_type: 'photoArt',
+    content_type: "photoArt",
   });
 
-  const paths = response.items.map(path => ({
+  const paths = response.items.map((path) => ({
     params: { slug: path.fields.slug },
   }));
 
@@ -23,10 +18,9 @@ export const getStaticPaths = async () => {
 };
 
 export async function getStaticProps(context) {
-  // response.items
   const { items } = await client.getEntries({
-    content_type: 'photoArt',
-    'fields.slug': context.params.slug,
+    content_type: "photoArt",
+    "fields.slug": context.params.slug,
   });
 
   return {
@@ -47,7 +41,7 @@ export default function RecipeDetails({ photoItem }) {
         <h2>{title}</h2>
         <div className="info">
           <div className="tags">
-            {tags.map(tag => (
+            {tags.map((tag) => (
               <span>#{tag}</span>
             ))}
           </div>

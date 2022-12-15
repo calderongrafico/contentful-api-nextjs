@@ -7,8 +7,8 @@ export default function Layout({ children }) {
         <Link href="/">
           <a>
             <h1>
-              <span>Just a trip to</span>
-              <span>Santa Marta</span>
+              <span>Welcome to my</span>
+              <span>Photo Book</span>
             </h1>
             <h2>Enjoy the view!</h2>
           </a>
@@ -20,7 +20,7 @@ export default function Layout({ children }) {
       </div>
 
       <footer>
-        <p>Copyright 2021 - Cesar Calderon Photography</p>
+        <p>Copyright 2022 - Cesar Calderon Photography</p>
       </footer>
     </div>
   )
